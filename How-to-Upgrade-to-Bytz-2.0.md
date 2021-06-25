@@ -12,13 +12,13 @@ _It is imperative that you back up your wallet.dat and private keys BEFORE upgra
  
 **Default datadir for bytz**
 
-`Linux: ~/.BYTZ/   `  
+`Linux: ~/.bytz/   `  
 `Windows: %APPDATA%\BYTZ  `  
 `Mac OS: ~/Library/Application Support/BYTZ/ `   
 
 ## 2. **Rename old data directory to BYTZ.old**
 
-`Linux: mv .BYTZ .BYTZ.old`  
+`Linux: mv .bytz .bytz.old`  
 `Windows: Right click > rename > BYTZ.old`  
 `Mac OS: Right Click > rename > BYTZ.old`  
 
