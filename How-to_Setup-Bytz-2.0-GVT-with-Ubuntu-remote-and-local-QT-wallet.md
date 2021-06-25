@@ -121,8 +121,8 @@ Change the directory to your masternode user’s home folder so you can download
 `cd ~`
 
 ## Clone the BYTZ repository
-**NOTE** This step (Compiling the wallet) is optional, you may also elect to download prebuilt binaries. 
-The latest BYTZ releases can be found at: https://github.com/bytzcurrency/BYTZ/releases. 
+**NOTE** _This step (Compiling the wallet) is optional, you may also elect to download prebuilt binaries._
+_The latest BYTZ releases can be found at:_ https://github.com/bytzcurrency/BYTZ/releases. 
 
 “Cloning” copies the wallet software from the Github developer repository to your VPS.
 
