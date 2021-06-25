@@ -15,7 +15,7 @@ Setting up an BTYZ masternode this way requires some basic understanding of comm
 
 # VPS requirements
 
-The VPS or remote server should have at least 2GB of free memory. Ubuntu 18.04 x64 is a stable platform for running masternodes. A VPS normally has a static IPs and an always-on internet connection with stable uptime which provides the constant network connection that the masternode needs.
+The VPS or remote server should have at least 4B of free memory. Ubuntu 18.04 x64 is a stable platform for running masternodes. A VPS normally has a static IPs and an always-on internet connection with stable uptime which provides the constant network connection that the masternode needs.
 
 **There are many providers of VPS services:**
 
@@ -120,7 +120,9 @@ Change the directory to your masternode user’s home folder so you can download
 
 `cd ~`
 
-**Clone the BYTZ repository**
+## Clone the BYTZ repository
+**NOTE** This step (Compiling the wallet) is optional, you may also elect to download prebuilt binaries. 
+The latest BYTZ releases can be found at: https://github.com/bytzcurrency/BYTZ/releases. 
 
 “Cloning” copies the wallet software from the Github developer repository to your VPS.
 
@@ -140,7 +142,7 @@ Change the directory to your masternode user’s home folder so you can download
 
 `cd bytz`
 
-# Build the wallet
+# Build the wallet 
 
 `./autogen.sh`
 
@@ -156,9 +158,11 @@ or
 
 `make`
 
-**NOTE:** Compiling will take some time. Make some tea.
+**NOTE:** Compiling will take some time. Make some tea.  
 
-After compiling, move the newly created binaries to the /usr/bin/ folder. This allows you to run and interact with the BYTZ daemon (bytzd) and the command line interface (bytz-cli) from anywhere on the system:
+## Copy Binaries to /usr/bin
+
+After compiling (or downloading) binaries, move the newly created/extracted binaries to the /usr/bin/ folder. This allows you to run and interact with the BYTZ daemon (bytzd) and the command line interface (bytz-cli) from anywhere on the system:
 
 `cp ~/bytz/src/bytzd ~/bytz/src/bytz-cli /usr/local/bin`
 
@@ -303,9 +307,32 @@ Adding the `masternodeblsprivkey` enables masternode mode. When the daemon walle
 
 `bytzd &`
 
+You will see a message reading **BYTZ Core server starting.** 
 Press Enter again to get back to the command prompt.
 
-# Generate owner/voting key
+We will now install Sentinel, a piece of software which operates as a watchdog to communicate to the network that your node is working properly
+
+`cd ~/.bytz`  
+`git clone https://github.com/bytzcurrency/sentinel.git`  
+`cd sentinel`  
+`virtualenv venv`  
+`venv/bin/pip install -r requirements.txt`  
+`venv/bin/python bin/sentinel.py`  
+
+The final command will return a string stating: **bytzd not synced with network! Awaiting full sync before running Sentinel.**  
+
+We'll now add a line to crontab to ensure sentinel runs every minute to update and check on the masternode  
+
+`crontab -e`  
+
+Choose nano as your editor and enter the following lines at the end of the file:
+
+`* * * * * cd ~/.bytz/sentinel && ./venv/bin/python bin/sentinel.py 2>&1 >> sentinel-cron.log` 
+`* * * * * pidof bytzd || ~/.bytz/bytzd`  
+
+`ctrl+x` to exit `s` to save when prompted
+
+# Generate Masternode Keys and Addresses
 
 Return to your local desktop wallet’s Debug Console.
 
@@ -327,7 +354,7 @@ Paste the address generated on your screen into your text editor and label it as
 
 **Generate payout address (PayoutAddress)**
 
-Next, you’ll  be generating a `payoutAddress` that receives the masternode rewards. By default, the `PayoutAddress` will also be the `FeeSourceAddress`, but you may choose to separate them. You may even choose a payout address that is not on your local wallet. If you do so, however, note that in order to submit the transaction to the network successfully, the `FeeSourceAddress` must exist in the wallet that is submitting the transaction to the network. The `PayoutAddress` or `FeeSourceAddress` must have enough balance to cover the transaction fee. If there is insufficient balance,  the final `register_submit` transaction will fail.
+Next, you’ll  be generating a `payoutAddress` that receives the masternode rewards. By default, the `PayoutAddress` will also be the `FeeSourceAddress`, but you may choose to separate them. You may even choose a payout address that is not on your local wallet. If you do so, however, note that in order to submit the transaction to the network successfully, the `FeeSourceAddress` must exist in the wallet that is submitting the transaction to the network. The `payoutaddress` or the `FeeSourceAddress` must have enough balance AND 1 GVT.credit to cover the transaction and registration fee. If there is insufficient balances of BYTZ or GVT.credit,  the final `register_submit` transaction will fail.
 
 **To generate a new PayoutAddress:**
 
@@ -337,11 +364,18 @@ Next, you’ll  be generating a `payoutAddress` that receives the masternode rew
 
 `sT5k3AZPvQ7Ky13LfVP6E8bjfurk2AtHre`
 
-It is also possible to generate and fund another address as the “transaction fee source” (labelled as `FeeSourceAddress`):
+Generate and fund another address as the “transaction fee source” (labelled as `FeeSourceAddress`):
 
 `getnewaddress FeeSourceAddress`
 
-`Registering the masternode with the network`
+**Example output:**  
+
+`sN71Hrp2Qtjn6tR39omdDnfDUMs1jYnmtw`  
+
+### Fund the FeeSourceAddress with at least .01 BYTZ and 1 GVT.credit to cover the registration and transaction fees
+
+
+## Registering the masternode with the network
 
 If the wallet is encrypted and locked, it must now be unlocked to perform the next commands:
 
@@ -358,10 +392,8 @@ Note: “`600`” in the command example is the amount of time in seconds that t
 The command has the following syntax:
 
 ```
-protx register_prepare collateralHash collateralIndex ipAndPort ownerKeyAddr operatorPubKey votingKeyAddr operatorReward payoutAddress (OPTIONAL:feeSourceAddress)
+protx register_prepare collateralHash collateralIndex ipAndPort ownerKeyAddr operatorPubKey votingKeyAddr operatorReward payoutAddress feeSourceAddress
 ```
-
-**NOTE:** The “`feeSourceAddress`“ at the end of the command is in parentheses to indicate that it is optional. If you don’t use a separate `feeSourceAddress`, you can leave this out.
 
 Open a text editor to prepare this command, replacing each syntax argument as follows:
 
@@ -391,7 +423,7 @@ Initially, the `ownerKeyAddr` and `votingKeyAddr` must be the same. Masternodes 
 **ProTx Register example:**
 
 ```
-protx register_prepare f292da56253b983d89c377460d46cacdffc2fa95b6c085463c99e6d19c12d851 1 72.80.492.390:27170 i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip 10390edad24d130602f22072a0cd58d7bc662d3667696e331f08308a29c45eb112d5eefff87b7866d1 5b387c01e659e i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip 0 i84AChqrdED2FHEFBCV7dWgt0fEaaGAEao
+protx register_prepare f292da56253b983d89c377460d46cacdffc2fa95b6c085463c99e6d19c12d851 1 72.80.492.390:27170 sLQ72uinxF95yxiTrpq9QM4uh1GgBGPSoa 99f20ed1538e28259ff80044982372519a2e6e4cdedb01c96f8f22e755b2b3124fbeebdf6de3587189cf44b3c6e7670e sLQ72uinxF95yxiTrpq9QM4uh1GgBGPSoa 0 sT5k3AZPvQ7Ky13LfVP6E8bjfurk2AtHre sN71Hrp2Qtjn6tR39omdDnfDUMs1jYnmtw
 ```
 
 Example of transaction ID output from the `protx register_prepare command` above:
@@ -399,8 +431,8 @@ Example of transaction ID output from the `protx register_prepare command` above
 ```
 {
   "tx": "030001000175c9d23c2710798ef0788e6a4d609460586a20e91a15f2097f56fc6e007c4f8e0000000000feffffff01a1949800000000001976a91434b09363474b14d02739a327fe76e6ea12deecad88ac00000000d1010000000000e379580dcfea3eb6944bfbe1de5fa2317932e260acce4d9ff3ede5f4287a34160100000000000000000000000000ffff2d4ce6ef4e1fd47babdb9092489c82426623299dde76b9c72d9799f20ed1538e28259ff80044982372519a2e6e4cdedb01c96f8f22e755b2b3124fbeebdf6de3587189cf44b3c6e7670ed1935246865dce1accce6c8691c8466bd67ebf1200001976a914fef33f56f709ba6b08d073932f925afedaa3700488acfdb281e134504145b5f8c7bd7b47fd241f3b7ea1f97ebf382249f601a0187f5300",
-  "collateralAddress": "i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip",
-  "signMessage": "i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip|1|i84AChqrdED2FHEFBCV7dWgt0fEaaGAEao|cd58d7bc662d3667696e331f08308a29c45eb112d5eefff87b7866d1f5b387"
+  "collateralAddress": "sXSjWXvRVPXcM9BavLAtJ3nYyviTrzHM8B",
+  "signMessage": "sXSjWXvRVPXcM9BavLAtJ3nYyviTrzHM8B|1|i84AChqrdED2FHEFBCV7dWgt0fEaaGAEao|cd58d7bc662d3667696e331f08308a29c45eb112d5eefff87b7866d1f5b387"
 }
 ```
 
@@ -423,7 +455,7 @@ Or
 **Example:**
 
 ```
-signmessage i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip i84AChqrdED2FHEFBCV7dWgt0fEaaGAEao|0|i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip|ad5f82257bd00a5a1cb5da1a44a6eb8899cf096d3748d68b8ea6d6b10046a28e
+signmessage sXSjWXvRVPXcM9BavLAtJ3nYyviTrzHM8B sXSjWXvRVPXcM9BavLAtJ3nYyviTrzHM8B|0|i0nFXhqrdDG1GZWKJAN6dQba6dZdgBGAip|ad5f82257bd00a5a1cb5da1a44a6eb8899cf096d3748d68b8ea6d6b10046a28e
 ```
 
 **Sample console output:**
