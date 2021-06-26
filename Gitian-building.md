@@ -6,9 +6,9 @@ Edit mode:
 Gitian building
 ================
 
-*Setup instructions for a Gitian build of Ion Core using a VM or physical system.*
+*Setup instructions for a Gitian build of Bytz Core using a VM or physical system.*
 
-Gitian is the deterministic build process that is used to build the Ion
+Gitian is the deterministic build process that is used to build the Bytz
 Core executables. It provides a way to be reasonably sure that the
 executables are really built from the git source. It also makes sure that
 the same, tested dependencies are used and statically built into the executable.
@@ -27,7 +27,7 @@ Table of Contents
 
 - [Preparing the Gitian builder host](#preparing-the-gitian-builder-host)
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building Ion Core](#building-ion)
+- [Building Bytz Core](#building-bytz)
 - [Building an alternative repository](#building-an-alternative-repository)
 - [Signing externally](#signing-externally)
 - [Uploading signatures](#uploading-signatures)
@@ -52,32 +52,25 @@ Please refer to the following documents to set up the operating systems and Giti
 | ---------------------------------: | :----------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
 | Setup virtual machine (Virtualbox) | [Create Debian 8 VirtualBox](./gitian-building/gitian-building-create-vm-debian.md)        | [Create Fedora VirtualBox](./gitian-building/gitian-building-create-vm-fedora.md)     |
 | Setup virtual machine (VMWare)     | [Create Debian 8 VMWare](./gitian-building/gitian-building-create-vm-debian-vmware.md)     | [Create Fedora VMWare](./gitian-building/gitian-building-create-vm-fedora-vmware.md)  |
-| Setup Gitian                       | [Setup Gitian on Debian 8 (build for trusty)](./gitian-building/gitian-building-setup-gitian-debian.md)       | [Setup Gitian on Fedora](./gitian-building/gitian-building-setup-gitian-fedora.md)    |
+| Setup Gitian                       | [Setup Gitian on Debian 8 (build for bionic)](./gitian-building/gitian-building-setup-gitian-debian.md)       | [Setup Gitian on Fedora](./gitian-building/gitian-building-setup-gitian-fedora.md)    |
 |                                    | [Setup Gitian on Ubuntu 18.04.1 (build for bionic)](./gitian-building/gitian-building-setup-gitian-ubuntu.md) |                                                                                       |
-
-### Download ISO/VMWare/Virtual Box Images
-
-| Source OS | Live/ISO | VMWare/Virtualbox offline image | Source OS ISO |
-| -------:  | :------- | :------------------------------ | :-----------: |
-| [Iontu GitianOS 18.04.1 basic server ISO](./gitian-building/iontu-gitianos-18.04.1.iso.md) | [Iontu GitianOS Live Desktop 18.04.1](./gitian-building/iontu-gitianos-18.04.1.iso.md) | [Iontu-GitianOS-18.04.1.ova](./gitian-building/iontu-gitianos-18.04.1.ova.md) | [Ubuntu 18.04.1 LTS netboot](http://cdimage.ubuntu.com/netboot/18.04.1/) |
-
 
 ## Getting and building the inputs
 
-At this point you have two options, you can either use the automated script (found in [https://github.com/cevap/ion/blob/master/contrib/gitian-build.sh](https://github.com/cevap/ion/blob/master/contrib/gitian-build.sh), only works in Debian/Ubuntu) or you could manually do everything by following this guide.
-If you are using the automated script, then run it with the `--setup` command. Afterwards, run it with the `--build` command (example: `contrib/gitian-build.sh -b signer 3.1.0`). Otherwise ignore this.
+At this point you have two options, you can either use the automated script (found in [https://github.com/bytzcurrency/bytz/blob/develop/contrib/gitian-build.py](https://github.com/bytzcurrency/bytz/blob/develop/contrib/gitian-build.py), only works in Debian/Ubuntu) or you could manually do everything by following this guide.
+If you are using the automated script, then run it with the `-S switch` `contrib/gitian-build.py -S`. Afterwards, run it with the `--build` command (example: `contrib/gitian-build.py -b <signer> 3.1.0`). Otherwise ignore this.
 
-Follow the instructions in [https://github.com/cevap/ion/blob/master/doc/release-process.md](https://github.com/cevap/ion/blob/master/doc/release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
-in the ion repository under 'Fetch and create inputs' to install sources which require
+Follow the instructions in [https://github.com/bytzcurrency/bytz/blob/develop/doc/release-process.md](https://github.com/bytzcurrency/bytz/blob/develop//doc/release-process.md#fetch-and-create-inputs-first-time-or-when-dependency-versions-change)
+in the bytz repository under 'Fetch and create inputs' to install sources which require
 manual intervention. Also optionally follow the next step: 'Seed the Gitian sources cache
 and offline git repositories' which will fetch the remaining files required for building
 offline.
 
-## Building Ion Core
+## Building Bytz Core
 
 
-To build Ion Core (for Linux, OS X and Windows) just follow the steps under 'perform
-Gitian builds' in [https://github.com/cevap/ion/blob/master/doc/release-process.md](https://github.com/cevap/ion/blob/master/doc/release-process.md#setup-and-perform-gitian-builds) in the ion repository.
+To build Bytz Core (for Linux, OS X and Windows) just follow the steps under 'perform
+Gitian builds' in [https://github.com/bytzcurrency/bytz/blob/develop/doc/release-process.md](https://github.com/bytzcurrency/bytz/blob/develop/doc/release-process.md#setup-and-perform-gitian-builds) in the Bytz repository.
 
 This may take some time as it will build all the dependencies needed for each descriptor.
 These dependencies will be cached after a successful build to avoid rebuilding them when possible.
@@ -85,20 +78,20 @@ These dependencies will be cached after a successful build to avoid rebuilding t
 At any time you can check the package installation and build progress with
 
 ```bash
-tail -f var/install.log
-tail -f var/build.log
+tail -f gbuilder/var/install.log
+tail -f gbuilder/var/build.log
 ```
 
 Output from `gbuild` will look something like
 
-    Initialized empty Git repository in /home/gitianuser/gitian-builder/inputs/ion/.git/
+    Initialized empty Git repository in /home/gitianuser/gitian-builder/inputs/bytz/.git/
     remote: Counting objects: 57959, done.
     remote: Total 57959 (delta 0), reused 0 (delta 0), pack-reused 57958
     Receiving objects: 100% (57959/57959), 53.76 MiB | 484.00 KiB/s, done.
     Resolving deltas: 100% (41590/41590), done.
-    From https://github.com/cevap/ion
+    From https://github.com/bytzcurrency/bytz
     ... (new tags, new branch etc)
-    --- Building for trusty amd64 ---
+    --- Building for bionic amd64 ---
     Stopping target if it is up
     Making a new image copy
     stdin: is not a tty
@@ -121,13 +114,16 @@ and inputs.
 
 For example:
 ```bash
-URL=https://github.com/cevap/bitcoin.git
+URL=https://github.com/bytzcurrency/bytz/bitcoin.git
 COMMIT=2014_03_windows_unicode_path
-./bin/gbuild --commit ion=${COMMIT} --url ion=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-linux.yml
-./bin/gbuild --commit ion=${COMMIT} --url ion=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-win.yml
-./bin/gbuild --commit ion=${COMMIT} --url ion=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-osx.yml
+./bin/gbuild --commit bytz=${COMMIT} --url bytz=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit bytz=${COMMIT} --url bytz=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit bytz=${COMMIT} --url bytz=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-osx.yml
 ```
-
+Using gitian-build.py
+```bash
+bytz/contrib/gitian-build.py -u <URL> -b {-c} <signer> <commit|tag> -j<num cpus> -m<memory to use> -o<architectures to build>
+```
 ## Building fully offline
 
 For building fully offline including attaching signatures to unsigned builds, the detached-sigs repository
@@ -145,14 +141,14 @@ So, if you use LXC:
 export PATH="$PATH":/path/to/gitian-builder/libexec
 export USE_LXC=1
 cd /path/to/gitian-builder
-./libexec/make-clean-vm --suite trusty --arch amd64
+./libexec/make-clean-vm --suite bionic --arch amd64
 
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get update
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root \
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root apt-get update
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root \
   -e DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
   $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../bitcoin/contrib/gitian-descriptors/*|sort|uniq )
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get -q -y purge grub
-LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root apt-get -q -y purge grub
+LXC_ARCH=amd64 LXC_SUITE=bionic on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
 ```
 
 And then set offline mode for apt-cacher-ng:
@@ -170,12 +166,12 @@ Then when building, override the remote URLs that gbuild would otherwise pull fr
 ```bash
 
 cd /some/root/path/
-git clone https://github.com/cevap/ion-detached-sigs.git
+git clone https://github.com/bytzcurrency/bytz-detached-sigs.git
 
 BTCPATH=/some/root/path/bitcoin
 SIGPATH=/some/root/path/bitcoin-detached-sigs
 
-./bin/gbuild --url ion=${BTCPATH},signature=${SIGPATH} ../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
+./bin/gbuild --url bytz=${BTCPATH},signature=${SIGPATH} ../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
 ```
 
 ## Signing externally
@@ -183,7 +179,7 @@ SIGPATH=/some/root/path/bitcoin-detached-sigs
 If you want to do the PGP signing on another device, that's also possible; just define `SIGNER` as mentioned
 and follow the steps in the build process as normal.
 
-    gpg: skipped "cevap": secret key not available
+    gpg: skipped "bytzkey": secret key not available
 
 When you execute `gsign` you will get an error from GPG, which can be ignored. Copy the resulting `.assert` files
 in `gitian.sigs` to your signing machine and do
@@ -200,7 +196,7 @@ Gitian build.
 ## Uploading signatures
 
 After building and signing you can push your signatures (both the `.assert` and `.assert.sig` files) to the
-[cevap/gitian.sigs](https://github.com/cevap/gitian.sigs/) repository, or if that's not possible create a pull
-request. You can also mail the files to Wladimir (dev@i2pmail.org) and he will commit them.
+[bytzcurrency/gitian.sigs](https://github.com/bytzcurrency/gitian.sigs/) repository, or if that's not possible create a pull
+request.
 
 
