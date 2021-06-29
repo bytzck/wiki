@@ -8,7 +8,8 @@ _It is imperative that you back up your wallet.dat and private keys BEFORE upgra
 
 
 # Steps to Update
-## 1. **Back up wallet.dat and private keys** 
+## 1. **Shut down old BYTZ QT/Daemon (Bytz 2.0)**
+## 2. **Back up wallet.dat and private keys** 
  
 **Default datadir for bytz**
 
@@ -16,22 +17,22 @@ _It is imperative that you back up your wallet.dat and private keys BEFORE upgra
 `Windows: %APPDATA%\BYTZ  `  
 `Mac OS: ~/Library/Application Support/BYTZ/ `   
 
-## 2. **Rename old data directory to BYTZ.old**
+## 3. **Rename old data directory to BYTZ.old**
 
 `Linux: mv .bytz .bytz.old`  
 `Windows: Right click > rename > BYTZ.old`  
 `Mac OS: Right Click > rename > BYTZ.old`  
 
-## 3. **Launch new BYTZ QT/Daemon**
+## 4. **Launch new BYTZ QT/Daemon**
 * Wait for full resync (this process may take some time)
 
-## 4. **Shut down new BYTZ QT/Daemon**
+## 5. **Shut down new BYTZ QT/Daemon**
 
-## 5. **Copy wallet.dat from BYTZ.old to new BYTZ Directory**
+## 6. **Copy wallet.dat from BYTZ.old to new BYTZ Directory**
 * Within the **_NEW_** BYTZ directory is a folder `wallets`  
 * Copy your `wallet.dat` from `BYTZ.old` to `BYTZ/wallets`
 
-## 6. **Relaunch BYTZ 2.0 Daemon/QT**
-## 7. **After rescanning, upgrade is complete**
+## 7. **Relaunch BYTZ 2.0 Daemon/QT**
+## 8. **After rescanning, upgrade is complete**
 
 
