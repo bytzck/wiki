@@ -8,7 +8,7 @@ _It is imperative that you back up your wallet.dat and private keys BEFORE upgra
 
 
 # Steps to Update
-## 1. **Shut down old BYTZ QT/Daemon (Bytz 2.0)**
+## 1. **Shut down old BYTZ QT/Daemon (Bytz 1.0)**
 ## 2. **Back up wallet.dat and private keys** 
  
 **Default datadir for bytz**
