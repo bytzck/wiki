@@ -248,13 +248,13 @@ Example:
 
 On the **remote** masternode server that you setup in the first step, edit the bytz.conf file with the command as follows:
 
-Make a new directory called “.bytz”
+Make a new directory called “.bytzcoin”
 
-`mkdir ~/.bytz`
+`mkdir ~/.bytzcoin`
 
 Configure the daemon by writing a preferences file called “bytz.conf”
 
-`nano ~/.bytz/bytz.conf`
+`nano ~/.bytzcoin/bytz.conf`
 
 The editor will open a blank document called, “bytz.conf”. Copy the text below and paste it into the editor:
 
@@ -312,7 +312,7 @@ Press Enter again to get back to the command prompt.
 
 We will now install Sentinel, a piece of software which operates as a watchdog to communicate to the network that your node is working properly
 
-`cd ~/.bytz`  
+`cd ~/.bytzcoin`  
 `git clone https://github.com/bytzcurrency/sentinel.git`  
 `cd sentinel`  
 `virtualenv venv`  
@@ -327,8 +327,8 @@ We'll now add a line to crontab to ensure sentinel runs every minute to update a
 
 Choose nano as your editor and enter the following lines at the end of the file:
 
-`* * * * * cd ~/.bytz/sentinel && ./venv/bin/python bin/sentinel.py 2>&1 >> sentinel-cron.log` 
-`* * * * * pidof bytzd || ~/.bytz/bytzd`  
+`* * * * * cd ~/.bytzcoin/sentinel && ./venv/bin/python bin/sentinel.py 2>&1 >> sentinel-cron.log` 
+`* * * * * pidof bytzd || ~/.bytzcoin/bytzd`  
 
 `ctrl+x` to exit `s` to save when prompted
 
