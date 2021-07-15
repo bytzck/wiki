@@ -25,8 +25,7 @@ _It is imperative that you back up your wallet.dat and private keys BEFORE upgra
 
 ## 5. **Copy wallet.dat from BYTZ to new bytzcoin Directory**
 _** For Mac OS and Windows the scripts below will accomplish the move for you. For linux simply run the provided copy command **_  
-Mac  
-Windows  
+Mac and Windows : https://github.com/bytzcurrency/BYTZ/releases   
 Linux: ` cp ~/.bytz/wallet.dat ~/.bytzcoin/wallets/wallet.dat ` 
 
 ## 7. **Relaunch BYTZ 2.0 Daemon/QT**
