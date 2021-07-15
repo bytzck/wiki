@@ -33,7 +33,7 @@ _** For Mac OS and Windows the scripts below will accomplish the move for you. F
 
 ### Windows
 1. [Download Migration Script](https://github.com/bytzcurrency/BYTZ/releases/download/v0.2.0.0/bytz_windows_migration.ps1)
-2. Right click bytz._windows_migration.ps1
+2. Right click `bytz._windows_migration.ps1`
 3. Select "run with powershell" (some users may receive a prompt to allow the script to run, enter "Y" to allow one time exception)
 4. Hit "enter" to close the window when prompted
 
