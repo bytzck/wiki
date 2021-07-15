@@ -6,31 +6,28 @@ This version also updates and changes the location of user specific files includ
 
 _It is imperative that you back up your wallet.dat and private keys BEFORE upgrading to BYTZ 2.0_
 
+** New Default datadir for BYTZ**
+
+`Linux: ~/.bytzcoin/   `  
+`Windows: %APPDATA%\bytzcoin  `  
+`Mac OS: ~/Library/Application Support/bytzcoin/ `   
 
 # Steps to Update
-## 1. **Shut down old BYTZ QT/Daemon (Bytz 1.0)**
-## 2. **Back up wallet.dat and private keys** 
- 
-**Default datadir for bytz**
 
-`Linux: ~/.bytz/   `  
-`Windows: %APPDATA%\BYTZ  `  
-`Mac OS: ~/Library/Application Support/BYTZ/ `   
+## 1. **Back up wallet.dat and private keys** 
 
-## 3. **Rename old data directory to BYTZ.old**
+## 2. **Shut down old BYTZ QT/Daemon (Bytz 1.0)**
 
-`Linux: mv .bytz .bytz.old`  
-`Windows: Right click > rename > BYTZ.old`  
-`Mac OS: Right Click > rename > BYTZ.old`  
-
-## 4. **Launch new BYTZ QT/Daemon**
+## 3. **Launch new BYTZ QT/Daemon**
 * Wait for full resync (this process may take some time)
 
-## 5. **Shut down new BYTZ QT/Daemon**
+## 4. **Shut down new BYTZ QT/Daemon**
 
-## 6. **Copy wallet.dat from BYTZ.old to new BYTZ Directory**
-* Within the **_NEW_** BYTZ directory is a folder `wallets`  
-* Copy your `wallet.dat` from `BYTZ.old` to `BYTZ/wallets`
+## 5. **Copy wallet.dat from BYTZ to new bytzcoin Directory**
+_** For Mac OS and Windows the scripts below will accomplish the move for you. For linux simply run the provided copy command **_  
+Mac  
+Windows  
+Linux: ` cp ~/.bytz/wallet.dat ~/.bytzcoin/wallets/wallet.dat ` 
 
 ## 7. **Relaunch BYTZ 2.0 Daemon/QT**
 ## 8. **After rescanning, upgrade is complete**
