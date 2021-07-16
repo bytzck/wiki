@@ -6,10 +6,6 @@
 
 [HOW TO: Compile the Bytz Qt wallet on Ubuntu](HOW-TO:-Compile-Bytz-Qt-wallet-on-Ubuntu)
 
-**Upgrade**
-
-[HOW TO: Upgrade to Bytz 2.0 ](How-to-Upgrade-to-Bytz-2.0)
-
 **Bytz Guardian Validator Nodes**
 
 [Bytz GVN FAQ](GVN-FAQ)<br>
