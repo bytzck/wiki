@@ -313,8 +313,10 @@ Press Enter again to get back to the command prompt.
 We will now install Sentinel, a piece of software which operates as a watchdog to communicate to the network that your node is working properly
 
 Install the Sentinel Python Prerequisites   
-`sudo apt-get -y install python-virtualenv`
+`sudo apt-get -y install python-virtualenv`  
 
+
+Install Sentinel  
 `cd ~/.bytzcoin`  
 `git clone https://github.com/bytzcurrency/sentinel.git`  
 `cd sentinel`  
