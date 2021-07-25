@@ -312,6 +312,9 @@ Press Enter again to get back to the command prompt.
 
 We will now install Sentinel, a piece of software which operates as a watchdog to communicate to the network that your node is working properly
 
+Install the Sentinel Python Prerequisites   
+`sudo apt-get -y install python-virtualenv`
+
 `cd ~/.bytzcoin`  
 `git clone https://github.com/bytzcurrency/sentinel.git`  
 `cd sentinel`  
@@ -327,7 +330,7 @@ We'll now add a line to crontab to ensure sentinel runs every minute to update a
 
 Choose nano as your editor and enter the following lines at the end of the file:
 
-`* * * * * cd ~/.bytzcoin/sentinel && ./venv/bin/python bin/sentinel.py 2>&1 >> sentinel-cron.log` 
+`* * * * * cd ~/.bytzcoin/sentinel && ./venv/bin/python bin/sentinel.py 2>&1 >> sentinel-cron.log`   
 `* * * * * pidof bytzd || ~/.bytzcoin/bytzd`  
 
 `ctrl+x` to exit `s` to save when prompted
